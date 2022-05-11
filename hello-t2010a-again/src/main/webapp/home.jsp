@@ -8,10 +8,9 @@
     <title>Document</title>
 </head>
 <body>
-    <p>Hello</p>
-<p>
-    <%= request.getAttribute("firstName")%>
-    <%= request.getAttribute("lastName")%>
-</p>
+    <h1>Welcome to home page</h1>
+
+    <p><%=request.getAttribute("firstName")%></p>
+    <p><%=request.getAttribute("lastName")%></p>
 </body>
 </html>
