@@ -1,5 +1,7 @@
 package com.t2010a.hellot2010aagain.entity;
 
+import com.t2010a.hellot2010aagain.util.DateTimeHelper;
+
 import java.time.LocalDateTime;
 
 public class Customer {
@@ -101,6 +103,13 @@ public class Customer {
 
     public void setStatus(int status) {
         Status = status;
+    }
+
+    public String getDobString() {
+        if(this.Dob!= null){
+            return DateTimeHelper.convertLocalDateTimeToString(this.Dob);
+        }
+        return "";
     }
 
     @Override

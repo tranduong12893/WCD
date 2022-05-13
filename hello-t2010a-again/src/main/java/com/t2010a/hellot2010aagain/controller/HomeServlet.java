@@ -1,21 +1,27 @@
 package com.t2010a.hellot2010aagain.controller;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
+import javax.servlet.http.*;
+import javax.servlet.annotation.*;
 
+@WebServlet(name = "helloServlet", value = "/hello-servlet")
 public class HomeServlet extends HttpServlet {
+    private String message;
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        // xử lý logic
-        // xử lý, lấy dữ liệu ở database.
-        request.setAttribute("firstName", firstName);
-        request.setAttribute("lastName", lastName);
-        request.getRequestDispatcher("/home.jsp").forward(request, response);
+    public void init() {
+        message = "Hello World!";
+    }
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html");
+
+        // Hello
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("<h1>" + message + "</h1>");
+        out.println("</body></html>");
+    }
+
+    public void destroy() {
     }
 }

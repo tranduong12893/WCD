@@ -3,7 +3,10 @@ package com.t2010a.hellot2010aagain.model;
 import com.t2010a.hellot2010aagain.entity.Student;
 import com.t2010a.hellot2010aagain.util.ConnectionHelper;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
