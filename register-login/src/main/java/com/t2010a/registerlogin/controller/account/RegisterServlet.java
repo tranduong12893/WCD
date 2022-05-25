@@ -46,7 +46,6 @@ public class RegisterServlet extends HttpServlet {
         }
         if (account.isValid()) {
             account.setSalt(SHA512Hasher.randomString(10));
-            System.out.println(account.getSalt());
             account.setPasswordHash(SHA512Hasher.encode(account.getPassword(), account.getSalt()));
             accountModel.save(account);
             resp.sendRedirect("/login");

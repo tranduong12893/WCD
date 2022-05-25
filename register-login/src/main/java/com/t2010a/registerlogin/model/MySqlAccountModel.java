@@ -20,9 +20,8 @@ public class MySqlAccountModel implements AccountModel {
     public Account save(Account obj) {
         try {
             Connection connection = ConnectionHelper.getConnection();
-            String sqlQuery = "insert into accounts " +
-                    "(username, passwordHash, salt, email, phone, role, createdAt, updatedAt, status) " +
-                    "values " +
+            String sqlQuery = "inser into accounts" +
+                    "(username, passwordHash, salt, email, phone, role, createAt, updateAt, status) " +
                     "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
             preparedStatement.setString(1, obj.getUsername());
