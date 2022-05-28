@@ -27,8 +27,7 @@ public class CreateProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("category", categoryModel.findAll());
         req.setAttribute("obj", new Product());
-        req.setAttribute("action", 1);
-        req.getRequestDispatcher("/admin/products/form.jsp").forward(req, resp);
+        req.getRequestDispatcher("/admin/products/create.jsp").forward(req, resp);
     }
 
     @Override
@@ -36,26 +35,24 @@ public class CreateProductServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String name = req.getParameter("name");
         int categoryId = Integer.parseInt(req.getParameter("categoryId"));
-        int status = Integer.parseInt(req.getParameter("status"));
         String description = req.getParameter("description");
         String thumbnail = req.getParameter("thumbnail");
         double price = Double.parseDouble(req.getParameter("price"));
+        int status = Integer.parseInt(req.getParameter("status"));
         Product product = new Product();
         product.setName(name);
         product.setCategoryId(categoryId);
-        product.setStatus(ProductStatus.of(status));
         product.setThumbnail(thumbnail);
         product.setDescription(description);
         product.setPrice(price);
-
+        product.setStatus(ProductStatus.of(status));
         if (!product.isValid()) {
             if (productModel.findByName(name) == null) {
                 req.setAttribute("category", categoryModel.findAll());
                 req.setAttribute("obj", product);
                 req.setAttribute("title", "Create Product");
-                req.setAttribute("action", 1);
                 req.setAttribute("errors", product.getErrors());
-                req.getRequestDispatcher("/admin/products/form.jsp").forward(req, resp);
+                req.getRequestDispatcher("/admin/products/create.jsp").forward(req, resp);
                 return;
             }
             product.addErrors("name2", "Tên món ăn đã có hãy lấy tên khác!");
@@ -63,7 +60,7 @@ public class CreateProductServlet extends HttpServlet {
         if (productModel.save(product) != null) {
             resp.sendRedirect("/products/list");
         } else {
-            req.getRequestDispatcher("/admin/products/form.jsp").forward(req, resp);
+            req.getRequestDispatcher("/admin/products/create.jsp").forward(req, resp);
         }
     }
 }

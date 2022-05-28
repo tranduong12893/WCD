@@ -74,6 +74,9 @@
                                                 </div>
                                                 <div class="card-footer">
                                                     <div class="text-right">
+                                                        <a href="/products/detail?id=<%=obj.getId()%>" class="btn btn-sm btn-primary">
+                                                            <i class="fas fa-solid fa-eye"></i> Detail
+                                                        </a>
                                                         <a href="/products/edit?id=<%=obj.getId()%>" class="btn btn-sm btn-primary">
                                                             <i class="fas fa-edit"></i> Edit
                                                         </a>

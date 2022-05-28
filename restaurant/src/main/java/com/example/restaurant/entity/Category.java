@@ -49,6 +49,13 @@ public class Category extends BaseEntity {
         this.status = CategoryStatus.ACTIVE;
     }
 
+    public Category(String name, int status) {
+        this.name = name;
+        this.setCreatedAt(LocalDateTime.now());
+        this.setUpdatedAt(LocalDateTime.now());
+        this.status = CategoryStatus.ACTIVE;
+    }
+
     public Category(int id, String name) {
         this.id = id;
         this.name = name;
@@ -56,7 +63,6 @@ public class Category extends BaseEntity {
         this.setUpdatedAt(LocalDateTime.now());
         this.status = CategoryStatus.ACTIVE;
     }
-
     @Override
     public String toString() {
         return "Category{" +

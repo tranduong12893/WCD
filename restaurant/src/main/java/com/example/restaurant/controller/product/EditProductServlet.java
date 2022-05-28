@@ -2,7 +2,6 @@ package com.example.restaurant.controller.product;
 
 import com.example.restaurant.entity.Category;
 import com.example.restaurant.entity.Product;
-import com.example.restaurant.entity.myenum.ProductStatus;
 import com.example.restaurant.model.CategoryModel;
 import com.example.restaurant.model.MySqlCategoryModel;
 import com.example.restaurant.model.MySqlProductModel;
@@ -36,15 +35,14 @@ public class EditProductServlet extends HttpServlet {
         } else {
             req.setAttribute("category", category);
             req.setAttribute("product", product);
-            req.setAttribute("action", 2);
-            req.getRequestDispatcher("/admin/products/form.jsp").forward(req, resp);
+            req.getRequestDispatcher("/admin/products/edit.jsp").forward(req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        int id = Integer.valueOf(req.getParameter("id"));
+        int id = Integer.parseInt(req.getParameter("id"));
         Product existingProduct = productModel.findById(id);
         List<Category> category = categoryModel.findAll();
         if(existingProduct == null){
@@ -60,13 +58,13 @@ public class EditProductServlet extends HttpServlet {
             if (!product.isValid()){
                 if (productModel.findByName(name) == null){
                     if (productModel.update(id, product) != null) {
+                        System.out.println(product);
                         resp.sendRedirect("/products/list");
                     } else {
                         req.setAttribute("category", category);
                         req.setAttribute("product", product);
                         req.setAttribute("title", "Edit product");
-                        req.setAttribute("action", 2);
-                        req.getRequestDispatcher("/admin/products/form.jsp").forward(req, resp);
+                        req.getRequestDispatcher("/admin/products/edit.jsp").forward(req, resp);
                     }
                 }
             }

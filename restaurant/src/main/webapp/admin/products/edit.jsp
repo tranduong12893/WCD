@@ -1,27 +1,26 @@
 <%@ page import="java.util.HashMap" %>
-<%@ page import="com.t2010a.gardenfruits.entity.Product" %>
-<%@ page import="com.t2010a.gardenfruits.entity.Category" %>
+
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.t2010a.gardenfruits.entity.myenum.ProductStatus" %><%--
-  Created by IntelliJ IDEA.
-  User: xuanhung
-  Date: 5/12/22
-  Time: 13:53
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="com.example.restaurant.entity.Product" %>
+<%@ page import="com.example.restaurant.entity.Category" %>
+<%@ page import="com.example.restaurant.entity.myenum.ProductStatus" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Product obj = (Product) request.getAttribute("obj");
-    List<Category> categories = (List<Category>) request.getAttribute("categories");
+    Product obj = (Product) request.getAttribute("product");
+    List<Category> categories = (List<Category>) request.getAttribute("category");
     if(categories == null){
         categories = new ArrayList<>();
+    }
+    HashMap<String, String> errors = (HashMap<String, String>) request.getAttribute("errors");
+    if(errors == null){
+        errors = new HashMap<>();
     }
 %>
 
 <!DOCTYPE html>
 <html lang="en">
-<jsp:include page="../includes/head.jsp"></jsp:include>
+    <jsp:include page="../includes/head.jsp"></jsp:include>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
     <!-- Navbar -->
@@ -39,12 +38,6 @@
                     <div class="col-sm-6">
                         <h1>Product management</h1>
                     </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/admin/products/list">Product Management</a></li>
-                            <li class="breadcrumb-item active">Create new</li>
-                        </ol>
-                    </div>
                 </div>
             </div><!-- /.container-fluid -->
         </section>
@@ -52,9 +45,22 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
+                <%
+                    if(errors != null && errors.size() > 0){
+                %>
                 <div class="row">
                     <div class="col-12">
                         <div class="callout callout-danger">
+                            <h5>Please fix error below</h5>
+                            <ul>
+                            <%
+                                for (String msg: errors.values()){
+                            %>
+                                <li class="text-danger"><%=msg%></li>
+                            <%
+                                }
+                            %>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -67,13 +73,20 @@
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <form name="product-form">
+                                <form action="/products/edit" method="post" name="product-form">
                                     <div class="row">
                                         <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <input type="text" name="id" value="<%=obj.getId()%>" class="form-control" style="display: none" placeholder="Please enter name">
+                                            </div>
+
                                             <!-- text input -->
                                             <div class="form-group">
                                                 <label>Name</label>
                                                 <input type="text" name="name" value="<%=obj.getName()%>" class="form-control" placeholder="Please enter name">
+                                                <%if(errors.containsKey("name")){%>
+                                                    <span class="text-danger">* <%=errors.get("name")%></span>
+                                                <%}%>
                                             </div>
                                         </div>
                                     </div>
@@ -81,11 +94,17 @@
                                         <div class="col-sm-4">
                                             <!-- select -->
                                             <div class="form-group">
-                                                <label>Category</label>
-                                                <%
-                                                    int i = obj.getCategoriId();
-                                                %>
-                                                <input type="text" name="CategoryId" value="<%=categories.get(i).getId()%><%=categories.get(i).getName()%>" class="form-control">
+                                                    <label>Vui lòng chọn danh mục</label>
+                                                <select name="categoryId" class="form-control">
+                                                    <option value="0">Tất cả</option>
+                                                    <%
+                                                        for (int i = 0; i < categories.size(); i++) {
+                                                    %>
+                                                        <option value="<%=categories.get(i).getId()%>"><%=categories.get(i).getName()%></option>
+                                                    <%
+                                                        }
+                                                    %>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -95,6 +114,9 @@
                                             <div class="form-group">
                                                 <label>Price</label>
                                                 <input type="text" name="price" value="<%=obj.getPrice()%>" class="form-control" placeholder="Please enter price">
+                                                <%if(errors.containsKey("price")){%>
+                                                <span class="text-danger">* <%=errors.get("price")%></span>
+                                                <%}%>
                                             </div>
                                         </div>
                                     </div>
@@ -103,7 +125,10 @@
                                             <!-- text input -->
                                             <div class="form-group">
                                                 <label>Description</label>
-                                                <input type="text" name="description" value="<%=obj.getDescription()%>" class="form-control" placeholder="Please enter description">
+                                                <textarea type="text" id="summernote" name="description" class="form-control" placeholder="Please enter description" ><%=obj.getDescription()%></textarea>
+                                                <%if(errors.containsKey("description")){%>
+                                                    <span class="text-danger">* <%=errors.get("description")%></span>
+                                                <%}%>
                                             </div>
                                         </div>
                                     </div>
@@ -111,15 +136,18 @@
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Thumbnail</label>
-                                                <img id="preview-image" src="<%=obj.getThumbnail()%>" alt="" class="img-bordered mt-2" width="200px">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-10">
-                                            <div class="form-group">
-                                                <label>Detail</label>
-                                                <textarea id="summernote" name="detail"><%=obj.getDetail()%></textarea>
+                                                <div class="input-group">
+                                                    <div class="custom-file">
+                                                        <input type="text" name="thumbnail" value="<%=obj.getThumbnail()%>" class="form-control" placeholder="Please choose image">
+                                                    </div>
+                                                    <div class="input-group-append" id="upload_widget">
+                                                        <span class="input-group-text">Upload</span>
+                                                    </div>
+                                                </div>
+                                                <img id="preview-image" style="display: none" src="" alt="" class="img-bordered mt-2" width="200px">
+                                                <%if(errors.containsKey("thumbnail")){%>
+                                                    <span class="text-danger">* <%=errors.get("thumbnail")%></span>
+                                                <%}%>
                                             </div>
                                         </div>
                                     </div>
@@ -128,7 +156,23 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <label>Status</label>
-                                                <input type="text" name="description" value="<%=ProductStatus.values()[i].name()%>" class="form-control">
+                                                <select name="status" class="form-control">
+                                                    <%
+                                                        for (int i = 0; i < ProductStatus.values().length; i++) {
+                                                    %>
+                                                    <option <%=obj.getStatus() == ProductStatus.values()[i] ? "selected": ""%> value="<%=ProductStatus.values()[i].getValue()%>"><%=ProductStatus.values()[i].name()%></option>
+                                                    <%
+                                                        }
+                                                    %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <button class="btn btn-primary">Save</button>
+                                                <input type="reset" class="btn btn-default" value="Reset">
                                             </div>
                                         </div>
                                     </div>
@@ -163,7 +207,7 @@
         $('#summernote').summernote();
         var myWidget = cloudinary.createUploadWidget({
                 cloudName: 'anhson',
-                uploadPreset: 'fruitshop'}, (error, result) => {
+                uploadPreset: 'mku1eljf'}, (error, result) => {
                 if (!error && result && result.event === "success") {
                     console.log('Done! Here is the image info: ', result.info.secure_url);
                     document.forms['product-form']['thumbnail'].value = result.info.secure_url;

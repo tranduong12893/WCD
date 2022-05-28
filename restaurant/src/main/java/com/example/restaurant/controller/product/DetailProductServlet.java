@@ -30,7 +30,7 @@ public class DetailProductServlet extends HttpServlet {
         Product product = productModel.findById(id);
         if (product == null) {
             req.setAttribute("message", "Product not found!");
-            req.getRequestDispatcher("/template/errors/404.jsp").forward(req, resp);
+            req.getRequestDispatcher("/admin/errors/404.jsp").forward(req, resp);
         } else {
             HttpSession session = req.getSession();
             ArrayList<Product> recentView =
@@ -46,7 +46,7 @@ public class DetailProductServlet extends HttpServlet {
             req.setAttribute("category", categoryModel.findById(product.getCategoryId()));
             req.setAttribute("product", product);
             req.setAttribute("title", "Detail Product");
-            req.getRequestDispatcher("/template/products/detail.jsp").forward(req, resp);
+            req.getRequestDispatcher("/admin/products/detail.jsp").forward(req, resp);
         }
 
     }

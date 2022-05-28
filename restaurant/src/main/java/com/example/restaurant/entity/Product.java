@@ -46,7 +46,7 @@ public class Product extends BaseEntity {
         if (name == null || name.length() == 0) {
             errors.put("name", "Hãy nhập tên món ăn!");
         }
-        if (name.length() > 7){
+        if (name.length() < 7){
             errors.put("name1", "Hãy nhập tên món ăn dài hơn 7 ký tự!");
         }
         if (price == 0) {

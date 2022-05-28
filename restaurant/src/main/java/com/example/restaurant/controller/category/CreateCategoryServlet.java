@@ -23,7 +23,7 @@ public class CreateCategoryServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("cat", new Category());
         req.setAttribute("action", 1);
-        req.getRequestDispatcher("/admin/category/form.jsp").forward(req, resp);
+        req.getRequestDispatcher("/admin/category/create.jsp").forward(req, resp);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class CreateCategoryServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         String name = req.getParameter("name");
         int status = Integer.parseInt(req.getParameter("status"));
-        Category category = new Category();
+        Category category = new Category(name, status);
         category.setName(name);
         category.setStatus(CategoryStatus.of(status));
         if (categoryModel.findByName(name) != null){
@@ -42,13 +42,13 @@ public class CreateCategoryServlet extends HttpServlet {
             req.setAttribute("action", 1);
             req.setAttribute("title", "Create Category");
             req.setAttribute("errors", category.getErrors());
-            req.getRequestDispatcher("/template/category/form.jsp").forward(req, resp);
+            req.getRequestDispatcher("/admin/category/create.jsp").forward(req, resp);
             return;
         }
         if (categoryModel.save(category) != null) {
             resp.sendRedirect("/categories/list");
         } else {
-            req.getRequestDispatcher("/template/categories/form.jsp").forward(req, resp);
+            req.getRequestDispatcher("/admin/categories/create.jsp").forward(req, resp);
         }
     }
 }

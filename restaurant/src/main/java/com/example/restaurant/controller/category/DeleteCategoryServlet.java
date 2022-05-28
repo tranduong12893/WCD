@@ -24,14 +24,14 @@ public class DeleteCategoryServlet extends HttpServlet {
         Category category = categoryModel.findById(id);
         if (category == null) {
             req.setAttribute("message", "Category not found!");
-            req.getRequestDispatcher("/template/errors/404.jsp").forward(req, resp);
+            req.getRequestDispatcher("/admin/errors/404.jsp").forward(req, resp);
         } else {
             boolean result = categoryModel.delete(id);
             if (result) {
                 resp.sendRedirect("/categories/list");
             } else {
                 req.setAttribute("message", "Action fails!");
-                req.getRequestDispatcher("/template/errors/500.jsp").forward(req, resp);
+                req.getRequestDispatcher("/admin/errors/500.jsp").forward(req, resp);
             }
         }
     }

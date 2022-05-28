@@ -24,6 +24,6 @@ public class ListCategoryServlet extends HttpServlet {
         List<Category> list = categoryModel.findAll();
         req.setAttribute("title", "List Category");
         req.setAttribute("list", list);
-        req.getRequestDispatcher("/template/category/list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/admin/category/list.jsp").forward(req, resp);
     }
 }

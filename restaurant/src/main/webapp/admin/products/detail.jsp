@@ -12,7 +12,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Product obj = (Product) request.getAttribute("obj");
+    Product obj = (Product) request.getAttribute("product");
     Category category = (Category) request.getAttribute("category");
 %>
 
@@ -95,7 +95,7 @@
                                             <!-- text input -->
                                             <div class="form-group">
                                                 <label>Description</label>
-                                                <input type="text" name="description" value="<%=obj.getDescription()%>" class="form-control" placeholder="Please enter description">
+                                                <textarea type="text" name="description" class="form-control"><%=obj.getDescription()%></textarea>
                                             </div>
                                         </div>
                                     </div>

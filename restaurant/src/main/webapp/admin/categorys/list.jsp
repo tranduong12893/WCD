@@ -1,7 +1,6 @@
-<%@ page import="com.t2010a.gardenfruits.entity.Product" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.t2010a.gardenfruits.entity.Category" %>
+<%@ page import="com.example.restaurant.entity.Category" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     List<Category> list = (List<Category>)request.getAttribute("list");
@@ -11,14 +10,14 @@
 %>
 <!DOCTYPE html>
 <html lang="en">
-<jsp:include page="../includes/head.jsp"></jsp:include>
+<jsp:include page="/admin/includes/head.jsp"></jsp:include>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
     <!-- Navbar -->
-    <jsp:include page="../includes/navbar.jsp"></jsp:include>
+    <jsp:include page="/admin/includes/navbar.jsp"></jsp:include>
 
     <!-- Main Sidebar Container -->
-    <jsp:include page="../includes/sidebar.jsp"></jsp:include>
+    <jsp:include page="/admin/includes/sidebar.jsp"></jsp:include>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -53,7 +52,6 @@
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th>Id</th>
                                         <th>Name</th>
                                         <th>Action</th>
                                     </tr>
@@ -62,18 +60,17 @@
                                     <%for (Category obj : list) {
                                     %>
                                     <tr>
-                                        <td><%=obj.getId()%></td>
                                         <td><%=obj.getName()%></td>
                                         <td>
-                                            <a href="/admin/products/edit?id=<%=obj.getId()%>"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
-                                            <a href="/admin/products/delete?id=<%=obj.getId()%>" onclick="return confirm('Are you sure?')"><i class="fas fa-solid fa-trash"></i></a>
+                                            <a href="/admin/category/detail?id=<%=obj.getId()%>"><i class="fas fa-solid fa-eye"></i></a>&nbsp;&nbsp;
+                                            <a href="/admin/category/edit?id=<%=obj.getId()%>"><i class="fas fa-edit"></i></a>&nbsp;&nbsp;
+                                            <a href="/admin/category/delete?id=<%=obj.getId()%>" onclick="return confirm('Are you sure?')"><i class="fas fa-solid fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     <%}%>
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <th>Id</th>
                                         <th>Name</th>
                                         <th>Action</th>
                                     </tr>
@@ -94,7 +91,7 @@
     </div>
     <!-- /.content-wrapper -->
 
-    <jsp:include page="../includes/footer.jsp"></jsp:include>
+    <jsp:include page="/admin/includes/footer.jsp"></jsp:include>
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">
         <!-- Control sidebar content goes here -->
@@ -103,6 +100,6 @@
 </div>
 <!-- ./wrapper -->
 
-<jsp:include page="../includes/script.jsp"></jsp:include>
+<jsp:include page="/admin/includes/script.jsp"></jsp:include>
 </body>
 </html>
